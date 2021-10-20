@@ -25,3 +25,36 @@ header {
     box-shadow: 1px 1px 3px 2px lightslategray;
 }
 
+/* (below) Flexbox is a CSS specification for positioning elements uniformly
+It's primarily used for creating layouts */
+/* 1-Dimensional layout specification */
+/* Uniformly horizontally, or uniformly vertically, or both */
+
+section {
+    display: flex;
+    width: 600px;
+    flex-wrap: wrap;
+}
+
+/* (above) setting display to flex creates a flex container
+all child elements become flex items */
+
+/* Helper CSS Classes */
+
+.left {
+    border-left: 3px solid #339685;
+}
+
+.right {
+    border-right: 3px solid #339685;
+}
+
+.top {
+    border-top: 3px solid #339685;
+}
+
+.square {
+    width: 200px;
+    height: 200px;
+    border: 3px solid #339685;
+}
