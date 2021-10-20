@@ -1,0 +1,27 @@
+/* Reset CSS */
+/* Zero out user agent stylesheets */
+/* Make sure browser CSS so it doesn't interfere with our CSS styles */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+/* * --> (above) selects every single element in HTML */
+/* border-box --> sizing of elements won't change just incase we
+add a border to them (border will be included in size of element */
+
+body {
+    min-height: 100vh;
+    font-family: Helvetica;
+}
+
+/* vh --> viewport height units --> screen of your device */
+/* adjusts to whatever device you're using */
+
+header {
+    background-color: #339685;
+    height: 50px;
+    color: white;
+    box-shadow: 1px 1px 3px 2px lightslategray;
+}
+
