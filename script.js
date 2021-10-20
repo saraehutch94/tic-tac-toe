@@ -7,6 +7,8 @@ const players = {
     "null": "",
 };
 
+// console.log(players[1]);
+
 const combos = [
     [0, 1, 2],
     [3, 4, 5],
@@ -29,11 +31,13 @@ let gameboard;
 // squares, reset button, gameboard (section tag) --> "view"
 
 const $squares = $(".square");
+// console.log($squares);
 const $resetBtn = $("button");
 const $gameboardElement = $("section");
+// console.log($gameboardElement);
 
 /*
-$gameboardEl will utilize bubbling --> whenever a div inside
+$gameboardElement will utilize bubbling --> whenever a div inside
 the section tag is clicked, the same event listener will be fired
 */
 
@@ -45,6 +49,11 @@ $resetBtn.on("click", handleStart);
 
 
 /*----- functions -----*/
+
+/*
+IMPORTANT: call handleStart() function at page load (not just when reset button is clicked)
+so board is clear when game first starts
+*/
 
 handleStart();
 
@@ -64,12 +73,14 @@ function handleStart() {
 function handleClick() {
     // capture user selection
     const userSelection = this.dataset.index;
+    // console.log(userSelection);
 
     // place value in corresponding position
     gameboard[userSelection] = turn;
+    // console.log(gameboard[userSelection]);
 
     // toggle turn
-    console.log(gameboard);
+    // console.log(gameboard);
     turn *= -1;
     render();
 };
@@ -85,7 +96,47 @@ function handleClick() {
 // updates DOM whenever square is clicked / rendering to DOM --> "view"
 
 function render() {
-    gameboard.forEach(function(key, index) {
-        $squares[index].textContent = players[key]; // value --> X, O, or ""
+    gameboard.forEach(function(value, index) {
+        $squares[index].textContent = players[value]; // value --> X, O, or ""
     })
 };
+
+/*
+
+render(): called to update the DOM with the changes we made to the gameboard via JS
+
+Steps of render():
+
+1.) Loop through the gameboard array (JS representation of gameboard w/ index #s)
+2.) Grabs the current value of each array element + index of each array element
+(callback function parameters)
+3.) $squares is a jQuery object (returns an array of DOM elements -> each div with
+    a class of "square")
+    a.) Each div in the array $squares contains has an index number parallel to the index
+    numbers in the gameboard array
+4.) When we get to the first array element in gameboard, it's value is either null, 1, or -1
+    a.) The first element in the gameboard array has an index of 0
+    b.) We are passing the value and index of each gameboard array's element to the second
+    line of code in this forEach method
+    c.) $square[index] -> takes the current index of the gameboard array element and passes it
+    to the $square jQuery object via square bracket notation
+        - Each element within the array that $squares has also has an index number (we
+            set this in the HTML at the beginning using data-index)
+        - We are now accessing the div in that index position of the $squares object
+    d.) players[value] -> takes the current value of the gameboard array element and passes
+    it to the players object via square bracket notation
+        - Each value within the gameboard array starts at null, so for each square that has
+        not been clicked on, it's value will be null (see handleClick() function above)
+        - If the square was clicked on, it's value is either 1 or -1 (see handleStart() and handleClick() functions above)
+        - players[null] would equal an empty string, leaving the squares that were
+        not clicked on empty
+        - players[1] would equal to "X" -> this accesses the key of "1" the players
+        object, which has a value of "X"
+        - players[-1] would equal to "O" -> this accesses the key of "-1" in the players
+        object, which has a value of "O"
+    e.) Overall, for each element in the gameboard array, whatever it's value and index
+    are will determine which div in the $squares array will be accessed and will determine
+    which value will be placed into that div via the DOM (X, O or null) based on which player's
+    turn it is and where they chose to click.
+
+*/
