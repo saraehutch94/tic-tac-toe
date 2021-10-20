@@ -35,6 +35,7 @@ const $squares = $(".square");
 const $resetBtn = $("button");
 const $gameboardElement = $("section");
 // console.log($gameboardElement);
+const $messageEl = $("h2");
 
 /*
 $gameboardElement will utilize bubbling --> whenever a div inside
@@ -73,16 +74,14 @@ function handleStart() {
 function handleClick() {
     // capture user selection
     const userSelection = this.dataset.index;
-    // console.log(userSelection);
 
-    // place value in corresponding position
-    gameboard[userSelection] = turn;
-    // console.log(gameboard[userSelection]);
-
-    // toggle turn
-    // console.log(gameboard);
-    turn *= -1;
-    render();
+    if (gameboard[userSelection] === null) {
+        // place value in corresponding position
+        gameboard[userSelection] = turn;
+        // toggle turn
+        turn *= -1;
+        render();
+    }
 };
 
 // handle square click --> "controller"
@@ -99,6 +98,9 @@ function render() {
     gameboard.forEach(function(value, index) {
         $squares[index].textContent = players[value]; // value --> X, O, or ""
     })
+
+    // we can update our message element here
+    $messageEl.text(`${players[turn]}'s turn`)
 };
 
 /*
@@ -120,9 +122,9 @@ Steps of render():
     line of code in this forEach method
     c.) $square[index] -> takes the current index of the gameboard array element and passes it
     to the $square jQuery object via square bracket notation
-        - Each element within the array that $squares has also has an index number (we
-            set this in the HTML at the beginning using data-index)
-        - We are now accessing the div in that index position of the $squares object
+        - Each element within the array that $squares has also has an index number (each div is 
+            an element within this array, so it has an index number)
+        - We are now accessing the div in that index position of the $squares array
     d.) players[value] -> takes the current value of the gameboard array element and passes
     it to the players object via square bracket notation
         - Each value within the gameboard array starts at null, so for each square that has
@@ -140,3 +142,4 @@ Steps of render():
     turn it is and where they chose to click.
 
 */
+
