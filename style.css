@@ -34,6 +34,7 @@ section {
     display: flex;
     width: 600px;
     flex-wrap: wrap;
+    margin: auto;
 }
 
 /* (above) setting display to flex creates a flex container
@@ -53,7 +54,30 @@ all child elements become flex items */
     border-top: 3px solid #339685;
 }
 
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/*
+- display: flex --> automatically lays out content horizontally
+- flex-direction --> lays out content vertically
+*/
+
+
 .square {
+    display: flex;
     width: 200px;
     height: 200px;
+    justify-content: center;
+    align-items: center;
+    font-size: 75px;
 }
+
+/* Two Flexbox-specific properties (above):
+- justify-content --> designed to justify content on the
+main axis of the flex container (horizontally)
+- align-items --> align on the cross axis (vertical)
+*/
