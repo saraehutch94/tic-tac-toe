@@ -75,11 +75,13 @@ function handleClick() {
     // capture user selection
     const userSelection = this.dataset.index;
 
-    if (gameboard[userSelection] === null) {
+    if (gameboard[userSelection] === null || !winner) {
         // place value in corresponding position
         gameboard[userSelection] = turn;
+        winner = checkWinner(); // we're hoping to get back the winner (1 or -1, or T - tie, or false)
         // toggle turn
         turn *= -1;
+        // check for winner
         render();
     }
 };
@@ -90,7 +92,25 @@ function handleClick() {
 
 // handle a reset button click
 
-// check for winner
+function checkWinner() {
+    // combos array -> for checking if we have a winning combination
+    // gameboard array -> for checking which positions are occupied
+    // if we can find matching values in the positions that equal a win
+    // in the winning combos array, we can return the winner
+
+    for (let i = 0; i < combos.length; i++) {
+        // do we have three matching values in the gameboard
+        // array that also match a winning combo
+        if (Math.abs(gameboard[combos[i][0]] + gameboard[combos[i][1]]+ gameboard[combos[i][2]]) === 3) {
+            return turn; // return the winning turn
+        }
+    }
+    // what if we checked all the winning combinations, found no match, but
+    // there are still available positions
+    if (gameboard.includes(null)) return false; // no winner, but there are
+    // still spaces available. Keep playing!
+    return "T";
+}
 
 // updates DOM whenever square is clicked / rendering to DOM --> "view"
 
@@ -100,7 +120,13 @@ function render() {
     })
 
     // we can update our message element here
-    $messageEl.text(`${players[turn]}'s turn`)
+    if (!winner) { // winner can be false, 1, -1, or T
+        $messageEl.text(`${players[turn]}'s turn`)
+    } else if (winner === "T") {
+        $messageEl.text(`Cats Game!`);
+    } else {
+        $messageEl.text(`Player ${players[winner]} Wins!`);
+    }
 };
 
 /*
